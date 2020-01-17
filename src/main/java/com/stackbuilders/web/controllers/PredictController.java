@@ -93,7 +93,7 @@ public class PredictController {
 			model.addAttribute("message", labelErrorDetailsTop);
 		} else if (incidents.get("assert").equals("true")) {
 			model.addAttribute("message",
-					"Vehicle with plate " + plate + " has traffic restriction on " + date + " at " + time + "!");
+					"Vehicle with license plate " + plate + " has traffic restriction on " + date + " at " + time + "!");
 			model.addAttribute("inforestriction", labelInfoEspecificRestriction);
 		} else if (incidents.get("assert").equals("false")) {
 			model.addAttribute("message",
