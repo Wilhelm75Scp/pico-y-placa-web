@@ -32,7 +32,7 @@ public class PredictController {
 	}
 
 	@RequestMapping(value = "/predict", method = RequestMethod.POST)
-	public String listar(@RequestParam(value = "plate", required = false) String plate,
+	public String predict(@RequestParam(value = "plate", required = false) String plate,
 			@RequestParam(value = "date", required = false) String date,
 			@RequestParam(value = "time", required = false) String time, Model model) {
 

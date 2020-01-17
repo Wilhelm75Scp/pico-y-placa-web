@@ -41,8 +41,7 @@
 	<footer th:fragment="footer" class="container">
 		<hr />
 		<p>
-			Pico y Placa predictor<br /> &copy; Company 2020, Inc. Todos los
-			derechos reservados. Términos de uso y privacidad.<br />
+			Pico y Placa predictor<br />2020, test code<br />
 		</p>
 		<!-- Optional JavaScript -->
 		<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
@@ -55,13 +54,39 @@
 				hour = document.getElementById("time").value;
 				date = document.getElementById("date").value;
 				plate = document.getElementById("plate").value;
+				var expregplate = /^[a-zA-Z ]*[0-9][0-9][0-9][0-9]$/;
+				var expregdate = /^([012][1-9]|3[01])(\/)(0[1-9]|1[012])\2(\d{4})$/;
 				var expreghour = /^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
-				if (!(expreghour.test(hour))){
-					document.getElementById('errortime').innerHTML='Hora invalida';
+				if (!(expregplate.test(plate))) {
+					document.getElementById('errorplate').innerHTML = 'Placa invalida';
 					return false;
+				} else {
+					document.getElementById('errorplate').innerHTML = '';
 				}
-					return true;
+				if (!(expregdate.test(date))) {
+					document.getElementById('errordate').innerHTML = 'Fecha invalida';
+					return false;
+				} else {
+					document.getElementById('errordate').innerHTML = '';
+				}
+				if (!(expreghour.test(hour))) {
+					document.getElementById('errortime').innerHTML = 'Hora invalida';
+					return false;
+				} else {
+					document.getElementById('errortime').innerHTML = '';
+				}
+				return true;
 			}
+		</script>
+		<script>
+			$(document).ready(function() {
+				$("input").on("keypress", function() {
+					$input = $(this);
+					setTimeout(function() {
+						$input.val($input.val().toUpperCase());
+					}, 50);
+				})
+			})
 		</script>
 	</footer>
 </body>
