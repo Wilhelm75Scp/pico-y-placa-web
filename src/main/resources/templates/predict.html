@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<h1 th:text="${title}"></h1>
+	<div class="container">
+		<form th:action="@{/predict}" method="post">
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Plate number</label>
+				<div class="col-sm-6">
+					<input type="text" th:name="plate" class="form-control" id="plate" />
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Date</label>
+				<div class="col-sm-6">
+					<input type="text" th:name="date" class="form-control" id="date"
+						data-mask="00/00/0000" />
+				</div>
+				ex: 16/01/2020
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label">Time</label>
+				<div class="col-sm-6">
+					<input type="text" th:name="time" class="form-control" id="time"
+						data-mask="00:00" />
+						<div id="errortime" style="color:red"></div>
+				</div>
+				ex: 08:13
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-6">
+					<input type="submit" value="Predict" class="btn btn-primary"
+						onclick="return validate();" />
+				</div>
+			</div>
+		</form>
+		<h1 th:text="${message}"
+			class="text-secondary border border-success border-bottom-0 border-left-0 border-right-0"></h1>
+		<h3 th:text="${inforestriction}"
+			class="text-secondary border border-success border-top-0 border-bottom-0 border-left-0 border-right-0"></h3>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

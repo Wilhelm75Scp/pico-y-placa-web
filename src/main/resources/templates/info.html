@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head"></head>
+<body>
+	<header th:replace="layout/layout :: header"></header>
+	<div class="container">
+		<br />
+		<div style="margin-left: auto; display: flex; justify-content: center">
+			<table class="table table-striped" style="width: 25%">
+				<thead>
+					<tr>
+						<th style="width:8em">Day</th>
+						<th>Digit</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>MON:</td>
+						<td>1&2</td>
+					</tr>
+					<tr>
+						<td>TUE:</td>
+						<td>3&4</td>
+					</tr>
+
+					<tr>
+						<td>WED:</td>
+						<td>5&6</td>
+					</tr>
+					<tr>
+						<td>THU:</td>
+						<td>7&8</td>
+					</tr>
+					<tr>
+						<td>FRI:</td>
+						<td>9&0</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<br />
+		<h3
+			th:text="'The restriction must be followed in two periods, from 7:00 a.m. to 9:30 a.m. and from 4:00 p.m. to 7:30 p.m.'"
+			class="text-secondary border border-success border-top-0 border-bottom-0 border-left-0 border-right-0"></h3>
+	</div>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
