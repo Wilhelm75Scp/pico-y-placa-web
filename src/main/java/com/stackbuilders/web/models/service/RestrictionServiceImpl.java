@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.stackbuilders.web.models.dao.IRestrictionDao;
@@ -23,6 +24,19 @@ public class RestrictionServiceImpl implements IRestrictionService {
 	static final String DATE_FORMAT = "dd/MM/yyyy";
 	static final String HOUR_TOKEN = ":";
 	static final String GENERAL_TOKEN = ",";
+	
+	@Value("${label.error.hour}")
+	private String labelErrorHour;
+	@Value("${label.error.minutes}")
+	private String labelErrorMinutes;
+	@Value("${label.error.day}")
+	private String labelErrorDay;
+	@Value("${label.assert.no.aplica}")
+	private String labelAssertNoAplica;
+	@Value("${label.assert.true}")
+	private String labelAssertTrue;
+	@Value("${label.assert.false}")
+	private String labelAssertFalse;
 
 	@Autowired
 	private IRestrictionDao restrictionDao;
@@ -40,22 +54,22 @@ public class RestrictionServiceImpl implements IRestrictionService {
 		List<String> hourMinutes = this.retrieveHourMinutes(time, incidents);
 		Integer hour = Integer.parseInt(hourMinutes.get(0));
 		if (hour > 60)
-			incidents.put("error", "El campo hora no puede ser mayor a 24.");
+			incidents.put("error", labelErrorHour);
 		Integer minutes = 0;
 		if (hourMinutes.size() > 1)
 			minutes = Integer.parseInt(hourMinutes.get(1));
 		if (minutes > 60)
-			incidents.put("error", "El campo minutos no puede ser mayor a 60.");
+			incidents.put("error", labelErrorMinutes);
 
 		Restriction restriction = this.findById(Long.parseLong(day.toString()));
 		List<String> digitRestriction = this.retrieveDigitTestriction(restriction);
 		List<String> timeFrame = this.retrieveTimeFrame(restriction);
 		if (validateTimeFrameRestriction(hour, minutes, timeFrame) == null) {
-			incidents.put("assert", "n/a");
+			incidents.put("assert", labelAssertNoAplica);
 		} else if (digitRestriction.contains(plateDigit) && validateTimeFrameRestriction(hour, minutes, timeFrame)) {
-			incidents.put("assert", "true");
+			incidents.put("assert", labelAssertTrue);
 		} else {
-			incidents.put("assert", "false");
+			incidents.put("assert", labelAssertFalse);
 		}
 		return incidents;
 	}
@@ -66,9 +80,9 @@ public class RestrictionServiceImpl implements IRestrictionService {
 		while (timeTokenizer.hasMoreTokens())
 			hourMinutes.add(timeTokenizer.nextToken());
 		if (Integer.valueOf(hourMinutes.get(0)) > 24)
-			incidents.put("error", "El valor hora no puede ser mayor a 24.");
+			incidents.put("error", labelErrorHour);
 		if (hourMinutes.size() > 1 && Integer.valueOf(hourMinutes.get(1)) > 60)
-			incidents.put("error", "El valor minutos no puede ser mayor a 60.");
+			incidents.put("error", labelErrorMinutes);
 		return hourMinutes;
 	}
 
@@ -96,7 +110,7 @@ public class RestrictionServiceImpl implements IRestrictionService {
 			Calendar calendar = Calendar.getInstance();
 			calendar.setTime(dateObject);
 			if (calendar.get(Calendar.DAY_OF_WEEK) > 31) {
-				incidents.put("error", "El valor de día no puede ser mayor a 31.");
+				incidents.put("error", labelErrorDay);
 				return 0;
 			}
 			return calendar.get(Calendar.DAY_OF_WEEK);

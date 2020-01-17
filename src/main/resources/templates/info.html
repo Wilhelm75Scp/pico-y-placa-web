@@ -3,6 +3,9 @@
 <head th:replace="layout/layout :: head"></head>
 <body>
 	<header th:replace="layout/layout :: header"></header>
+	<br />
+	<h1 th:text="${title}"></h1>
+	<br />
 	<div class="container">
 		<br />
 		<div style="margin-left: auto; display: flex; justify-content: center">
@@ -10,7 +13,7 @@
 				<thead>
 					<tr>
 						<th style="width:8em">Day</th>
-						<th>Digit</th>
+						<th>Last Vehicle License Plate Digit</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,7 +43,7 @@
 		</div>
 		<br />
 		<h3
-			th:text="'The restriction must be followed in two periods, from 7:00 a.m. to 9:30 a.m. and from 4:00 p.m. to 7:30 p.m.'"
+			th:text="${periodrestrictioninfo}"
 			class="text-secondary border border-success border-top-0 border-bottom-0 border-left-0 border-right-0"></h3>
 	</div>
 	<footer th:replace="layout/layout :: footer"></footer>
