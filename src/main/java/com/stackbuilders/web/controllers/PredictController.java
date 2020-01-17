@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.stackbuilders.web.models.service.IRestrictionService;
 
+/**
+ * predict.html and info.html Spring controller
+ * 
+ * @author William Simbana
+ * 
+ */
 @Controller
 public class PredictController {
 
@@ -33,12 +39,26 @@ public class PredictController {
 	@Autowired
 	private IRestrictionService restrictionService;
 
+	/**
+	 * Default GET Request Mapping for predict.html
+	 * 
+	 * @author William Simbana
+	 * @param objeto Model
+	 * @return predict.html
+	 */
 	@RequestMapping(value = "/predict", method = RequestMethod.GET)
 	public String predict(Model model) {
 		model.addAttribute("title", labelTitlePredict);
 		return "predict";
 	}
 
+	/**
+	 * Default GET Request Mapping for info.html
+	 * 
+	 * @author William Simbana
+	 * @param objeto Model
+	 * @return info.html
+	 */
 	@RequestMapping(value = "/info", method = RequestMethod.GET)
 	public String info(Model model) {
 		model.addAttribute("title", labelTitleInfo);
@@ -46,24 +66,40 @@ public class PredictController {
 		return "info";
 	}
 
+	/**
+	 * POST Request Mapping for predict.html
+	 * 
+	 * @author William Simbana
+	 * @param String plate
+	 * @param String date
+	 * @param String time
+	 * @param objeto Model
+	 * @return predict.html
+	 */
 	@RequestMapping(value = "/predict", method = RequestMethod.POST)
 	public String predict(@RequestParam(value = "plate", required = false) String plate,
 			@RequestParam(value = "date", required = false) String date,
 			@RequestParam(value = "time", required = false) String time, Model model) {
 
+		// Null parameters validation
 		if (plate.equals("") || date.equals("") || time.equals("")) {
 			model.addAttribute("error", labelErrorCompleteData);
 			model.addAttribute("message", labelErrorDetailsTop);
 			return "predict";
 		}
+		// Restriction validation from parameters license plate, date and time
 		Map<String, String> incidents = restrictionService.validateRestriction(plate, date, time);
 		if (incidents.get("assert").equals("n/a")) {
 			model.addAttribute("message", labelErrorDetailsTop);
 		} else if (incidents.get("assert").equals("true")) {
-			model.addAttribute("message", "Vehicle with plate " + plate + " has traffic restriction!");
+			model.addAttribute("message",
+					"Vehicle with plate " + plate + " has traffic restriction on " + date + " at " + time + "!");
 			model.addAttribute("inforestriction", labelInfoEspecificRestriction);
 		} else if (incidents.get("assert").equals("false")) {
-			model.addAttribute("message", "Vehicle with license plate " + plate + " is enabled to drive!");
+			model.addAttribute("message",
+					"Vehicle with license plate " + plate + " is enabled to drive on " + date + " at " + time + "!");
+		} else {
+			model.addAttribute("message", incidents.get("assert"));
 		}
 		if (incidents.size() > 1) {
 			incidents.forEach((key, value) -> model.addAttribute(key, value));

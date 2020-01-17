@@ -16,6 +16,12 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+/**
+ * Entity class corresponding to table restriction in H2 local database
+ * 
+ * @author William Simbana
+ *
+ */
 @Entity
 @Table(name = "restriction")
 public class Restriction implements Serializable {
@@ -78,5 +84,5 @@ public class Restriction implements Serializable {
 	}
 
 	private static final long serialVersionUID = 1L;
-	
+
 }
